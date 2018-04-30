@@ -68,16 +68,28 @@ export default class AsherDom {
 ```
 > - 判断是不是类数组，如果是则返回对象，如果不是则返回源数据
 ### isArr 方法中的类数组转数组的常用方法总结：
+> - Array.from方法[MDN飞机票](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 ```javascript
-  // Array.from方法[MDN飞机票](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
   console.log('from', Array.from(nodeDom) instanceof Array, Array.from(nodeDom))
 ```
-> - 扩展运算符[es6扩展运算符飞机票](http://es6.ruanyifeng.com/#docs/destructuring)：console.log('扩展运算符', Array.isArray([...nodeDom]), [...nodeDom])
-> - [].slice.call()：console.log('slice.call()', Array.isArray([].slice.call(nodeDom)), [].slice.call(nodeDom))
-> - [].slice.apply():  console.log('slice.apply()', Array.isArray([].slice.apply(nodeDom)), [].slice.apply(nodeDom))
-> - es6的Symbol配合[].concat() 方法 [Symbol飞机票](https://segmentfault.com/a/1190000010754245)：
-> - nodeDom[Symbol.isConcatSpreadable] = true
-> - console.log('Symbol', Array.isArray([].concat(nodeDom)), [].concat(nodeDom))
+> - 扩展运算符[es6扩展运算符飞机票](http://es6.ruanyifeng.com/#docs/destructuring) 
+```javascript
+console.log('扩展运算符', Array.isArray([...nodeDom]), [...nodeDom])
+```
+> - [].slice.call()
+```javascript
+console.log('slice.call()', Array.isArray([].slice.call(nodeDom)), [].slice.call(nodeDom))
+```
+> - [].slice.apply()
+```javascript
+console.log('slice.apply()', Array.isArray([].slice.apply(nodeDom)), [].slice.apply(nodeDom))
+```
+
+> - es6的Symbol配合[].concat() 方法 [Symbol飞机票](https://segmentfault.com/a/1190000010754245)
+```javascript
+nodeDom[Symbol.isConcatSpreadable] = true
+console.log('Symbol', Array.isArray([].concat(nodeDom)), [].concat(nodeDom))
+```
 
 ## addClass 方法
 > - 看名字就清楚了这个方法的意思。给DOM元素添加className类名
