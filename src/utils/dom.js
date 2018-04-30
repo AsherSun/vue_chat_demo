@@ -34,7 +34,7 @@ export default class AsherDom {
       /*
        * 1.先拿到这个数组集合中的每一个DOM对象
        * 2.给每一个DOM对象的className属性值
-       * ...（逻辑重复单个DOM对象的情况）
+       * ...(逻辑重复单个DOM对象的情况)
        */
     } else { // 单个DOM 对象的情况下
       /*
