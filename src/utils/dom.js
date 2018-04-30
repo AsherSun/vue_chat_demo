@@ -1,9 +1,10 @@
 /**
  * DOM 的简单操作 类库
  * @Author asher_sun
- * @export
- * @class Dom
+ * @export AsherDom
+ * @class AsherDom
  * @param el ===> 接收的DOM标签的className或者id或者 DOM 对象
+ * @returns AsherDom
  */
 export default class AsherDom {
   constructor(el) {
