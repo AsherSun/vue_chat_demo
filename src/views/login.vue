@@ -1,10 +1,17 @@
 <template>
   <div class="login">
-    <div :class="item" v-for="(item, index) in list_1" :key="index" @click="clickMe($event)">{{item + index}}</div>
+    <div
+      :class="item"
+      v-for="(item, index) in list_1"
+      :key="index"
+      @click="clickMe($event)">{{`${item}_${index}`}}
+    </div>
     <div
       length="index"
       :id="item" v-for="(item, index) in list_2"
-      :key="item">{{`#_${item}_${index}`}}</div>
+      :key="item"
+      @click="clickMe($event)">{{`${item}_${index}`}}>{{`#_${item}_${index}`}}
+    </div>
   </div>
 </template>
 
@@ -13,9 +20,9 @@ export default {
   name: 'login',
   methods: {
     clickMe (e) {
-      this.$utils.dom(e.target).addClass()
-      this.$utils.dom('.login-box').addClass()
-      this.$utils.dom('#box_1').addClass()
+      this.$utils.dom(e.target).addClass('asher_sun')
+      // this.$utils.dom('.login-box').addClass()
+      // this.$utils.dom('#box_1').addClass()
     }
   },
   mounted () {
@@ -25,7 +32,7 @@ export default {
   },
   data () {
     return {
-      list_1: ['login-box', 'login-box', 'login-box', 'login-box', 'login-box', 'login-box', 'login-box'],
+      list_1: ['login-box asher', 'login-box sun asher', 'login-box sun', 'login-box asher', 'login-box ahser-sun', 'login-box', 'login-box sun asher'],
       list_2: ['box_1', 'box_2', 'box_3', 'box_4']
     }
   }
