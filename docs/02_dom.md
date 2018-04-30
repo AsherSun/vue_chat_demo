@@ -68,7 +68,7 @@ export default class AsherDom {
 ```
 > - 判断是不是类数组，如果是则返回对象，如果不是则返回源数据
 ### isArr 方法中的类数组转数组的常用方法总结：
-> - Array.from方法[MDN飞机票]()https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/from：console.log('from', Array.from(nodeDom) instanceof Array, Array.from(nodeDom))
+> - Array.from方法[MDN飞机票](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/from)：console.log('from', Array.from(nodeDom) instanceof Array, Array.from(nodeDom))
 > - 扩展运算符[es6扩展运算符飞机票](http://es6.ruanyifeng.com/#docs/destructuring)：console.log('扩展运算符', Array.isArray([...nodeDom]), [...nodeDom])
 > - [].slice.call()：console.log('slice.call()', Array.isArray([].slice.call(nodeDom)), [].slice.call(nodeDom))
 > - [].slice.apply():  console.log('slice.apply()', Array.isArray([].slice.apply(nodeDom)), [].slice.apply(nodeDom))
