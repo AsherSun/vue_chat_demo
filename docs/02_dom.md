@@ -56,6 +56,7 @@ export default class AsherDom {
 > - 于是正则这样写：/^(#|.)/.test(str) 只要给任意字符串，返回的总是true
 > - 所以我们应该将匹配规则改成这样: /^(#|\\.)/.test(str), 只有当第一个字符为符合‘#’或者‘.’的时候才为true
 ### 静态方法 isArr 内部逻辑
+> - 判断是不是类数组，如果是则返回对象，如果不是则返回源数据
 > - es6类的静态方法说明(个人理解)：对象的私有方法，而不是挂载在prototype原型上的动态方法。只能允许该对象访问。比如：
 ```javascript
   class Fn {
@@ -66,7 +67,6 @@ export default class AsherDom {
   // 而不能这样调用：
   Fn().a()
 ```
-> - 判断是不是类数组，如果是则返回对象，如果不是则返回源数据
 ### isArr 方法中的类数组转数组的常用方法总结：
 > - Array.from方法[MDN飞机票](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/from)
 ```javascript
