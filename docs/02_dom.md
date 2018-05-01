@@ -1,8 +1,8 @@
 # dom常用操作方法封装
 ## 全栈技术交流：
 ***
-QQ: 135170291
-微信公众号：前端邦邦堂（WebBBT）
+> + QQ: 135170291
+> + 微信公众号：前端邦邦堂（WebBBT）
 ***
 ## 前言
 > 首先非常感谢开源项目[vuechat](https://github.com/clm960227/vuechat), 本项目是基于[vuechat](https://github.com/clm960227/vuechat)的基础之上开发的。项目主要立意：学习、分享。学习开源项目[vuechat](https://github.com/clm960227/vuechat)所用到的技术并且分享学习过程中的所得，所想。
@@ -227,9 +227,9 @@ export default class AsherDom {
 ## removeClass 方法
 > 删除类名与添加类名相似，会分为两种情况
 ***
-> - 单个DOM对象删除
-> - 多个DOM对象一起删除
-> - 所以套路与addCalss一样，我们直接上代码：
+- 单个DOM对象删除
+- 多个DOM对象一起删除
+- 所以套路与addCalss一样，我们直接上代码：
 ***
 ### 封装删除className 的方法
 ```javascript
@@ -261,12 +261,12 @@ removeClass(className) {
 ## siblings 获取兄弟节点
 > 获取兄弟节点方法逻辑说明：
 ***
-> - 判断DOM是不是一个集合。如果是，则阻止后续代码执行，反之。
-> - 先拿到当前节点的父级节点
-> - 初始化一个数组
-> - 进行节点对比，如果一样则剔除
-> - 给AsherDom 类下面的 dom赋值
-> - 返回AsherDom实例，用于链式调用
+- 判断DOM是不是一个集合。如果是，则阻止后续代码执行，反之。
+- 先拿到当前节点的父级节点
+- 初始化一个数组
+- 进行节点对比，如果一样则剔除
+- 给AsherDom 类下面的 dom赋值
+- 返回AsherDom实例，用于链式调用
 ***
 > siblings 方法内部逻辑代码：
 ```javascript
@@ -281,4 +281,99 @@ siblings() {
   this.dom = arr
   return this
 }
+```
+## AsherDom 类库最终的代码结构:
+```javascript
+export default class AsherDom {
+  constructor(el) {
+    this.dom = null
+    if (typeof el === 'string') {
+      /*
+       * 正则匹配遇坑记:
+       * 符号 ‘.’（点）在正则中有代表的意思：（小数点）匹配除换行符之外的任何单个字符
+       * 于是正则这样写：/^(#|.)/.test(str) 只要给任意字符串，返回的总是true
+       * 所以我们应该将匹配规则改成这样: /^(#|\.)/.test(str), 只有当第一个字符为符合‘#’或者‘.’的时候才为true
+       */
+      if (/^(#|\.)/.test(el)) {
+        this.dom = el[0] === '#' ? document.querySelectorAll(el)[0] : document.querySelectorAll(el)
+        return this
+      }
+      throw new RangeError('给的值不是一个有效的DOM元素的className或者id')
+    } else if (typeof el === 'object' && el instanceof HTMLElement) {
+      this.dom = el
+    } else {
+      throw new TypeError('不是一个DOM对象,请检查传入的值数据类型')
+    }
+    return this
+  }
+  // 判断是不是类数组，如果是则返回数组，如果不是则返回源对象
+  static isArr(nodeDom) {
+    if (nodeDom.length) {
+      nodeDom[Symbol.isConcatSpreadable] = true
+      return [].concat(nodeDom)
+    }
+    return false
+  }
+  // 添加类名
+  addClass(className) {
+    if (AsherDom.isArr(this.dom)) { // 数组的情况下
+      this.dom.forEach((item, index) => {
+        this.addClassItem(className, item)
+      })
+      return this
+    }
+    // 单个DOM 对象的情况下
+    this.addClassItem(className)
+    return this
+  }
+  // dom 添加className的方法
+  addClassItem(className, dom = this.dom) {
+    let nameArr = [...dom.classList]
+    let i = 0
+    let len = nameArr.length
+    for (; i < len; i++) {
+      if (nameArr[i] === className) return false
+    }
+    nameArr.push(className)
+    dom.className = nameArr.join(' ')
+  }
+  // 删除类名
+  removeClass(className) {
+    if (AsherDom.isArr(this.dom)) { // 数组的情况下
+      this.dom.forEach((item, index) => {
+        this.removeClassItem(className, item)
+      })
+      return this
+    }
+    // 单个DOM 对象的情况下
+    this.removeClassItem(className)
+    return this
+  }
+  removeClassItem(className, dom = this.dom) {
+    let nameArr = [...dom.classList]
+    for (let i = 0, len = nameArr.length; i < len; i++) {
+      if (className === nameArr[i]) {
+        nameArr.splice(i, 1)
+        dom.className = nameArr.join(' ')
+      }
+    }
+  }
+  // 获取兄弟节点
+  siblings() {
+    if (AsherDom.isArr(this.dom)) return false
+    let allChild = this.dom.parentNode.children
+    let arr = []
+    for (let i = 0, len = allChild.length; i < len; i++) {
+      if (this.dom !== allChild[i]) arr.push(allChild[i])
+    }
+    this.dom = arr
+    return this
+  }
+}
+```
+### 调用方式：
+```javascript
+import Dom from './AsherDom'
+let $ = el => new Dom(el)
+$(e.target).addClass('asher').siblings().removeClass('asher')
 ```
