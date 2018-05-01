@@ -28,16 +28,24 @@ export default class AsherDom {
     }
     return this
   }
-
+  // 判断是不是类数组，如果是则返回数组，如果不是则返回源对象
+  static isArr(nodeDom) {
+    if (nodeDom.length) {
+      nodeDom[Symbol.isConcatSpreadable] = true
+      return [].concat(nodeDom)
+    }
+    return false
+  }
   // 添加类名
   addClass(className) {
     if (AsherDom.isArr(this.dom)) { // 数组的情况下
       this.dom.forEach((item, index) => {
         this.addClassItem(className, item)
       })
-    } else { // 单个DOM 对象的情况下
-      this.addClassItem(className)
+      return this
     }
+    // 单个DOM 对象的情况下
+    this.addClassItem(className)
     return this
   }
   // dom 添加className的方法
@@ -51,13 +59,44 @@ export default class AsherDom {
     nameArr.push(className)
     dom.className = nameArr.join(' ')
   }
-
-  // 判断是不是类数组，如果是则返回数组，如果不是则返回源对象
-  static isArr(nodeDom) {
-    if (nodeDom.length) {
-      nodeDom[Symbol.isConcatSpreadable] = true
-      return [].concat(nodeDom)
+  // 删除类名
+  removeClass(className) {
+    /*
+     * 删除类名与添加类名相似，会分为两种情况：
+     * 单个DOM对象删除
+     * 多个DOM对象一起删除
+     */
+    if (AsherDom.isArr(this.dom)) { // 数组的情况下
+      this.dom.forEach((item, index) => {
+        this.removeClassItem(className, item)
+      })
+      return this
     }
-    return false
+    this.removeClassItem(className)
+    // 单个DOM 对象的情况下
+    return this
+  }
+  removeClassItem(className, dom = this.dom) {
+    let nameArr = [...dom.classList]
+    for (let i = 0, len = nameArr.length; i < len; i++) {
+      if (className === nameArr[i]) {
+        // 删除类名
+        nameArr.splice(i, 1)
+        // 删完之后返回到DOM对象上
+        dom.className = nameArr.join(' ')
+      }
+    }
+  }
+  // 获取兄弟节点
+  siblings() {
+    if (AsherDom.isArr(this.dom)) return false
+    let allChild = this.dom.parentNode.children
+    let arr = []
+    // 进行元素对比
+    for (let i = 0, len = allChild.length; i < len; i++) {
+      if (this.dom !== allChild[i]) arr.push(allChild[i])
+    }
+    this.dom = arr
+    return this
   }
 }

@@ -20,8 +20,8 @@ export default {
   name: 'login',
   methods: {
     clickMe (e) {
-      // this.$utils.dom(e.target).addClass('asher_sun')
-      this.$utils.dom('.login-box').addClass('asher_sun')
+      this.$utils.dom(e.target).addClass('asher').siblings().removeClass('asher')
+      // this.$utils.dom('.login-box').removeClass('asher')
       // this.$utils.dom('#box_1').addClass()
     }
   },
@@ -32,7 +32,7 @@ export default {
   },
   data () {
     return {
-      list_1: ['login-box asher', 'login-box sun asher', 'login-box sun', 'login-box asher', 'login-box ahser-sun', 'login-box', 'login-box sun asher'],
+      list_1: ['login-box', 'login-box', 'login-box', 'login-box', 'login-box', 'login-box ', 'login-box'],
       list_2: ['box_1', 'box_2', 'box_3', 'box_4']
     }
   }

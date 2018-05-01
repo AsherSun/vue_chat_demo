@@ -186,9 +186,10 @@ export default class AsherDom {
       this.dom.forEach((item, index) => {
         this.addClassItem(className, item)
       })
-    } else { // 单个DOM 对象的情况下
-      this.addClassItem(className)
-    }
+      return this
+    } 
+    // 单个DOM 对象的情况下
+    this.addClassItem(className)
     return this
   }
   // dom 添加className的方法
