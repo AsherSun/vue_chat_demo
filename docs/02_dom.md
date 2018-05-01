@@ -143,3 +143,73 @@ forEach([10, 9, 8, 7, 6, 5, 4, 3, 2, 1], (item, index) => {
   console.log(`index：${index}`, `item：${item}`)
 })
 ```
+### 多个DOM添加className (数组集合)的情况
+> 上面的代码是单个DOM对象添加className,逻辑还是非常的简单的。而多个DOM添加className,只是比单个DOM对象添加className多了一个步骤：从数组中拿出每一个DOM，然后给每一个DOM添加className
+> - 依据上述这种逻辑，我们可以把单个DOM对象添加className封装成一个函数
+> - 这样就可以减少重复臃肿的代码。再说了，不会偷懒的程序猿不是一个好程序猿
+### DOM添加className的封装
+```javascript
+addClassItem(className, dom = this.dom) {
+  let nameArr = [...dom.classList]
+  let i = 0
+  let len = nameArr.length
+  for (; i < len; i++) {
+    if (nameArr[i] === className) return false
+  }
+  nameArr.push(className)
+  dom.className = nameArr.join(' ')
+}
+```
+> 该方法接收两个参数，一个是className(需要添加的className名称)，另一个参数为DOM对象
+> 方法封装完成之后我们只需要在多个DOM对象的情况下调用就可了。下面我们来看下AsherDom类的整体逻辑
+```javascript
+export default class AsherDom {
+  constructor(el) {
+    this.dom = null
+    if (typeof el === 'string') {
+      if (/^(#|\.)/.test(el)) {
+        this.dom = el[0] === '#' ? document.querySelectorAll(el)[0] : document.querySelectorAll(el)
+        return this
+      }
+      throw new RangeError('给的值不是一个有效的DOM元素的className或者id')
+    } else if (typeof el === 'object' && el instanceof HTMLElement) {
+      this.dom = el
+    } else {
+      throw new TypeError('不是一个DOM对象,请检查传入的值数据类型')
+    }
+    return this
+  }
+
+  // 添加类名
+  addClass(className) {
+    if (AsherDom.isArr(this.dom)) { // 数组的情况下
+      this.dom.forEach((item, index) => {
+        this.addClassItem(className, item)
+      })
+    } else { // 单个DOM 对象的情况下
+      this.addClassItem(className)
+    }
+    return this
+  }
+  // dom 添加className的方法
+  addClassItem(className, dom = this.dom) {
+    let nameArr = [...dom.classList]
+    let i = 0
+    let len = nameArr.length
+    for (; i < len; i++) {
+      if (nameArr[i] === className) return false
+    }
+    nameArr.push(className)
+    dom.className = nameArr.join(' ')
+  }
+
+  // 判断是不是类数组，如果是则返回数组，如果不是则返回源对象
+  static isArr(nodeDom) {
+    if (nodeDom.length) {
+      nodeDom[Symbol.isConcatSpreadable] = true
+      return [].concat(nodeDom)
+    }
+    return false
+  }
+}
+```

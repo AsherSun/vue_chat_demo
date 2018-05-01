@@ -20,8 +20,8 @@ export default {
   name: 'login',
   methods: {
     clickMe (e) {
-      this.$utils.dom(e.target).addClass('asher_sun')
-      // this.$utils.dom('.login-box').addClass()
+      // this.$utils.dom(e.target).addClass('asher_sun')
+      this.$utils.dom('.login-box').addClass('asher_sun')
       // this.$utils.dom('#box_1').addClass()
     }
   },
