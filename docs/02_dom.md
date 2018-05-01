@@ -1,5 +1,9 @@
 # dom常用操作方法封装
-
+## 全栈技术交流：
+***
+QQ: 135170291
+微信公众号：前端邦邦堂（WebBBT）
+***
 ## 前言
 > 首先非常感谢开源项目[vuechat](https://github.com/clm960227/vuechat), 本项目是基于[vuechat](https://github.com/clm960227/vuechat)的基础之上开发的。项目主要立意：学习、分享。学习开源项目[vuechat](https://github.com/clm960227/vuechat)所用到的技术并且分享学习过程中的所得，所想。
 
