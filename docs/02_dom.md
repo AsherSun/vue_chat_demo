@@ -6,7 +6,13 @@ QQ: 135170291
 ***
 ## 前言
 > 首先非常感谢开源项目[vuechat](https://github.com/clm960227/vuechat), 本项目是基于[vuechat](https://github.com/clm960227/vuechat)的基础之上开发的。项目主要立意：学习、分享。学习开源项目[vuechat](https://github.com/clm960227/vuechat)所用到的技术并且分享学习过程中的所得，所想。
-
+## 在写dom.js类库之前，我们先看下HTML结构
+```HTML
+<ul>
+  <li class="asher sun ahser_sun"></li>
+  ...
+</ul>
+```
 ## dom.js 文件会封装的方法：
 > addClass、removeClass、siblings
 
@@ -216,5 +222,63 @@ export default class AsherDom {
     }
     return false
   }
+}
+```
+## removeClass 方法
+> 删除类名与添加类名相似，会分为两种情况
+***
+> - 单个DOM对象删除
+> - 多个DOM对象一起删除
+> - 所以套路与addCalss一样，我们直接上代码：
+***
+### 封装删除className 的方法
+```javascript
+removeClassItem(className, dom = this.dom) {
+    let nameArr = [...dom.classList]
+    for (let i = 0, len = nameArr.length; i < len; i++) {
+      if (className === nameArr[i]) {
+        nameArr.splice(i, 1)
+        dom.className = nameArr.join(' ')
+      }
+    }
+  }
+```
+### removeClass 方法逻辑
+```javascript
+// 删除类名
+removeClass(className) {
+  if (AsherDom.isArr(this.dom)) { // 数组的情况下
+    this.dom.forEach((item, index) => {
+      this.removeClassItem(className, item)
+    })
+    return this
+  }
+  // 单个DOM 对象的情况下
+  this.removeClassItem(className)
+  return this
+}
+```
+## siblings 获取兄弟节点
+> 获取兄弟节点方法逻辑说明：
+***
+> - 判断DOM是不是一个集合。如果是，则阻止后续代码执行，反之。
+> - 先拿到当前节点的父级节点
+> - 初始化一个数组
+> - 进行节点对比，如果一样则剔除
+> - 给AsherDom 类下面的 dom赋值
+> - 返回AsherDom实例，用于链式调用
+***
+> siblings 方法内部逻辑代码：
+```javascript
+siblings() {
+  if (AsherDom.isArr(this.dom)) return false
+  let allChild = this.dom.parentNode.children
+  let arr = []
+  // 进行元素对比
+  for (let i = 0, len = allChild.length; i < len; i++) {
+    if (this.dom !== allChild[i]) arr.push(allChild[i])
+  }
+  this.dom = arr
+  return this
 }
 ```

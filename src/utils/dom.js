@@ -61,28 +61,21 @@ export default class AsherDom {
   }
   // 删除类名
   removeClass(className) {
-    /*
-     * 删除类名与添加类名相似，会分为两种情况：
-     * 单个DOM对象删除
-     * 多个DOM对象一起删除
-     */
     if (AsherDom.isArr(this.dom)) { // 数组的情况下
       this.dom.forEach((item, index) => {
         this.removeClassItem(className, item)
       })
       return this
     }
-    this.removeClassItem(className)
     // 单个DOM 对象的情况下
+    this.removeClassItem(className)
     return this
   }
   removeClassItem(className, dom = this.dom) {
     let nameArr = [...dom.classList]
     for (let i = 0, len = nameArr.length; i < len; i++) {
       if (className === nameArr[i]) {
-        // 删除类名
         nameArr.splice(i, 1)
-        // 删完之后返回到DOM对象上
         dom.className = nameArr.join(' ')
       }
     }
@@ -92,7 +85,6 @@ export default class AsherDom {
     if (AsherDom.isArr(this.dom)) return false
     let allChild = this.dom.parentNode.children
     let arr = []
-    // 进行元素对比
     for (let i = 0, len = allChild.length; i < len; i++) {
       if (this.dom !== allChild[i]) arr.push(allChild[i])
     }
