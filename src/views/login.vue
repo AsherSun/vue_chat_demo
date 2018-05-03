@@ -20,8 +20,10 @@ export default {
   name: 'login',
   methods: {
     clickMe (e) {
-      this.$alert()
-      this.$utils.dom(e.target).addClass('asher').siblings().removeClass('asher')
+      this.$alert({
+        text: 'asher_title'
+      })
+      // this.$utils.dom(e.target).addClass('asher').siblings().removeClass('asher')
       // this.$utils.dom('.login-box').removeClass('asher')
       // this.$utils.dom('#box_1').addClass()
     }
